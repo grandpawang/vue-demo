@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <button id="btn">click</button>
+
+  <script src="./index.js"></script>
+
+  <script>
+    const root = document.getElementById("app")
+    const btn = document.getElementById("btn")
+
+    const obj = reactive({
+     count: 0,
+    })
+
+    let double = computed(() => {
+      console.log("computed", obj.count)
+      return obj.count * 2
+    })
+    // 整个页面的副作用
+    effect(() => {
+      console.log("effect", obj.count)
+      root.innerHTML = `<h1>
+        count: ${obj.count}
+        double: ${double.value}
+      </h1>`
+    })
+
+    btn.addEventListener("click", () => {
+      obj.count+=1
+    })
+  </script>
+</body>
+</html>
