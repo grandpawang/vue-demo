@@ -1,0 +1,61 @@
+<html>
+<body>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="./vuex.js"></script>
+
+  <div id="app">
+    <h2>app</h2>
+    vuex state:   {{ $store.state.counter }}
+    vuex getters: {{ $store.getters.counter2 }}
+    <hr>
+    <h2>vuex-test</h2>
+    <vuex-test></vuex-test>
+  </div>
+
+  <script>
+    const store = new Vuex.Store({
+      state: {
+        counter: 0
+      },
+      getters: {
+        counter2: state => state.counter * 2
+      },
+      mutations: {
+        INCREMENT: state => state.counter++,
+        DECREMENT: state => state.counter--,
+        SET_COUNTER: (state, value) => state.counter = value
+      },
+      actions: {
+        count500ms(state) {
+          console.log("aaa")
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(state.counter++)
+            }, 500)
+          })
+        },
+        count(state) {
+          return state.counter++
+        }
+      }
+    })
+
+    Vue.component('vuex-test', {
+      template: `
+      <div>
+        <div>
+          <button @click="$store.commit('INCREMENT')">+1</button>
+          <button @click="$store.commit('DECREMENT')">-1</button>
+          <button @click="$store.commit('SET_COUNTER', 0)">Reset</button>
+          <button @click="$store.dispatch('count500ms')">count500ms</button>
+          <button @click="$store.dispatch('count')">count</button>
+        </div>
+      </div>`
+    })
+
+    const app = new Vue({
+      store,
+    }).$mount('#app')
+  </script>
+</body>
+</html>
