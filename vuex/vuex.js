@@ -3,7 +3,7 @@ let Vue;
 const isPromise = val => val && typeof val.then === 'function'
 
 class Store {
-  constructor(options = {}) {
+  constructor (options = {}) {
     if (!Vue && typeof window !== 'undefined' && window.Vue) {
       install(window.Vue)
     }
@@ -42,20 +42,20 @@ class Store {
       data: {
         $$state: _state
       },
-      computed,
+      computed
     })
   }
 
-  get state() {
+  get state () {
     return this._vm._data.$$state
   }
 
-  commit(_type, _payload) {
+  commit (_type, _payload) {
     const entry = this.mutations[_type]
     entry(_payload)
   }
 
-  dispatch(_type, _payload) {
+  dispatch (_type, _payload) {
     const entry = this.actions[_type](_payload)
     // 函数变成一个promise函数
     const promiseEntry = (isPromise(entry)
@@ -66,21 +66,20 @@ class Store {
       })
     return promiseEntry
   }
-
 }
 
 function install (_Vue) {
   if (Vue && _Vue === Vue) {
-      console.error(
-        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
-      )
+    console.error(
+      '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+    )
     return
   }
   Vue = _Vue
 
   // mixin store
   Vue.mixin({
-    beforeCreate() {
+    beforeCreate () {
       const options = this.$options
       // store injection
       if (options.store) {
@@ -94,7 +93,7 @@ function install (_Vue) {
   })
 }
 
-Vuex = {
+window.Vuex = {
   Store,
-  install,
+  install
 }

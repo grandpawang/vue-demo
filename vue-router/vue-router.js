@@ -1,26 +1,26 @@
 class VueRouter {
-  constructor({
+  constructor ({
     routes
   }) {
     this._routes = routes
     this.history = {
-      current: "/",
+      current: '/',
       component: {
-        template: "<div>default</div>"
+        template: '<div>default</div>'
       }
     }
     this.listen()
   }
 
   listen () {
-    window.addEventListener("load", () => {
+    window.addEventListener('load', () => {
       const hash = window.location.hash.slice(1)
-      if(!hash) { // 触发hashchange url => /#/
-        window.location.hash = "/"
+      if (!hash) { // 触发hashchange url => /#/
+        window.location.hash = '/'
       }
     })
 
-    window.addEventListener("hashchange", () => {
+    window.addEventListener('hashchange', () => {
       const hash = window.location.hash.slice(1)
       const route = this._routes.find(route => route.path === hash)
       if (route) {
@@ -35,7 +35,6 @@ class VueRouter {
 let _Vue
 
 VueRouter.install = function (Vue) {
-
   if (this.installed && _Vue === Vue) return
   this.installed = true
 
@@ -45,12 +44,11 @@ VueRouter.install = function (Vue) {
 
 
   Vue.mixin({
-    beforeCreate() {
-      
+    beforeCreate () {
       if (isDef(this.$options.router)) {
         this._routerRoot = this
         this._router = this.$options.router
-        Vue.util.defineReactive(this, "_route", this._router.history)
+        Vue.util.defineReactive(this, '_route', this._router.history)
       } else {
         this._routerRoot = (this.$parent && this.$parent._routerRoot) || this
       }
@@ -62,9 +60,9 @@ VueRouter.install = function (Vue) {
   })
 
   Vue.component('RouterView', {
-    render(h) {
+    render (h) {
       // _route是一个observer当history变化时触发dom更新 重新render
-      let component = this._routerRoot._route.component
+      const component = this._routerRoot._route.component
       return h(component)
     }
   })
@@ -73,11 +71,11 @@ VueRouter.install = function (Vue) {
     props: {
       to: {
         type: String,
-        required: true,
+        required: true
       }
     },
-    render(h) {
-      return h("a", { attrs: { href: "#" + this.$props.to } }, this.$slots.default)
+    render (h) {
+      return h('a', { attrs: { href: '#' + this.$props.to } }, this.$slots.default)
     }
   })
 }

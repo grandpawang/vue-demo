@@ -13,7 +13,7 @@
   </div>
 
   <script>
-    const store = new Vuex.Store({
+    const store = new window.Vuex.Store({
       state: {
         counter: 0
       },
@@ -23,24 +23,24 @@
       mutations: {
         INCREMENT: state => state.counter++,
         DECREMENT: state => state.counter--,
-        SET_COUNTER: (state, value) => state.counter = value
+        SET_COUNTER: (state, value) => (state.counter = value)
       },
       actions: {
-        count500ms(state) {
-          console.log("aaa")
+        count500ms (state) {
+          console.log('aaa')
           return new Promise((resolve, reject) => {
             setTimeout(() => {
               resolve(state.counter++)
             }, 500)
           })
         },
-        count(state) {
+        count (state) {
           return state.counter++
         }
       }
     })
 
-    Vue.component('vuex-test', {
+    window.Vue.component('vuex-test', {
       template: `
       <div>
         <div>
@@ -53,8 +53,8 @@
       </div>`
     })
 
-    const app = new Vue({
-      store,
+    new window.Vue({
+      store
     }).$mount('#app')
   </script>
 </body>

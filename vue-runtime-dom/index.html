@@ -7,16 +7,35 @@
 </head>
 <body>
   <div id="app"></div>
+
+  <hr>
+
+  <div id="app-canvas"></div>
+  <script src="../pkg/vue3.js"></script>
   <script src="./runtime-dom.js"></script>
+  <script src="./canvas-dom.js"></script>
   <script>
-    const { createApp } = Vue;
-    createApp({
-      data() {
+    window.self_Vue.createApp({
+      data () {
         return {
-          foo: "hello world"
+          foo: 'hello world'
         }
       }
-    }).mount("#app")
+    }).mount('#app')
+
+    window.createCanvasApp({
+      template: '<bar-chart :data="chartData"></bar-chart>',
+      data () {
+        return {
+          chartData: [
+            { title: 'hello', count: 123, color: 'red' },
+            { title: 'olleh', count: 456, color: 'yellow' },
+            { title: 'world', count: 234, color: 'blue' },
+            { title: 'dlrow', count: 789, color: 'green' }
+          ]
+        }
+      }
+    }).mount('#app-canvas')
 
   </script>
 </body>
