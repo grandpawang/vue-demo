@@ -12,16 +12,25 @@
 
   <div id="app-canvas"></div>
   <script src="../pkg/vue3.js"></script>
-  <script src="./runtime-dom.js"></script>
-  <script src="./canvas-dom.js"></script>
+  <script src="../reactive/index.js"></script>
+  <script src="./runtime-core.js"></script>
+  <script src="./canvas-runtime-dom.js"></script>
   <script>
-    window.self_Vue.createApp({
+    const app = window.self_Vue.createApp({
       data () {
         return {
+          count: 0,
           foo: 'hello world'
         }
+      },
+      render() {
+        return window.self_Vue.h('div', null, this.count + '')
       }
     }).mount('#app')
+
+    setInterval(() => {
+      app.proxy.count++
+    }, 1000)
 
     window.createCanvasApp({
       template: '<bar-chart :data="chartData"></bar-chart>',

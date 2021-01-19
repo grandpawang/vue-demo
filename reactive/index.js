@@ -13,44 +13,41 @@ const effectStack = []
 
 
 // 收集依赖
-// rective有多个 
+// rective有多个
 // 一个有多个属性
-function track(target, key){
-
+function track (target, key) {
   // 初始化targetMap对象 提取.target.key的所有依赖
   const effect = effectStack[effectStack.length - 1]
-  if(effect) {
+  if (effect) {
     let depMap = targetMap.get(target)
-    if(!depMap) {
+    if (!depMap) {
       // 原来没有建立依赖
       depMap = new Map()
       targetMap.set(target, depMap)
     }
     let dep = depMap.get(key)
-    if(!dep) {
+    if (!dep) {
       dep = new Set()
       depMap.set(key, dep)
     }
-    
+
     // 全局依赖添加该target依赖
     dep.add(effect)
   }
-
 }
 
 // 触发更新
-function trigger(target, key, info){
-
-  let depMap = targetMap.get(target)
-  if(!depMap) {
+function trigger (target, key, info) {
+  const depMap = targetMap.get(target)
+  if (!depMap) {
     return
-  } 
+  }
 
   const effects = new Set()
   const computedRunners = new Set()
 
-  if(key) {
-    let deps = depMap.get(key)
+  if (key) {
+    const deps = depMap.get(key)
     deps.forEach(effect => {
       if (effect.computed) {
         computedRunners.add(effect)
@@ -64,26 +61,26 @@ function trigger(target, key, info){
 }
 
 
-// 副作用 
+// 副作用
 //  => computed 特殊的effect
-function effect(fn, options={}) {
+function effect (fn, options = {}) {
   const e = createReactiveEffect(fn, options)
 
-  if(!options.lazy) {
+  if (!options.lazy) {
     e()
   }
   return e
 }
 
 const baseHandler = {
-  get(target, key){
+  get (target, key) {
     const res = target[key]
     // 收集响应式依赖
     track(target, key)
     // 返回原本数据
     return res
   },
-  set(target, key, val) {
+  set (target, key, val) {
     const info = {
       oldValue: target[key],
       newValue: val
@@ -96,7 +93,7 @@ const baseHandler = {
 }
 
 
-function reactive(target) {
+function reactive (target) {
   // target => 响应式
   const observer = new Proxy(target, baseHandler)
 
@@ -104,29 +101,29 @@ function reactive(target) {
 }
 
 // 创建双向绑定对象
-function createReactiveEffect(fn, options={}) {
-  // effect执行器工厂 
+function createReactiveEffect (fn, options = {}) {
+  // effect执行器工厂
   //   => 执行运行effect对象
-  function effect(...args) {
+  function effect (...args) {
     return run(effect, fn, args)
   }
 
   // 后续
-  清理以及缓存
+  // 清理以及缓存
   effect.deps = []
   effect.lazy = options.lazy
-  effect.computed = options.computed 
+  effect.computed = options.computed
 
   return effect
 }
 
-// effect执行器 
+// effect执行器
 // effectStack的一个effect
-function run(effect, fn, args) {
-  if(effectStack.indexOf(effect) === -1) {
+function run (effect, fn, args) {
+  if (effectStack.indexOf(effect) === -1) {
     try {
       effectStack.push(effect)
-      console.log("push effect")
+      console.log('push effect')
       return fn(...args)
     } finally {
       effectStack.pop()
@@ -134,8 +131,7 @@ function run(effect, fn, args) {
   }
 }
 
-function computed(fn) {
-
+function computed (fn) {
   // 添加全局副作用
   const runner = effect(fn, {
     computed: true,
@@ -144,8 +140,14 @@ function computed(fn) {
 
   return {
     effect: runner,
-    get value() {
+    get value () {
       return runner()
     }
   }
+}
+
+window.rectivity = {
+  effect,
+  reactive,
+  computed
 }
