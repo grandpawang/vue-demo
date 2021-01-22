@@ -33,6 +33,8 @@ module.exports = {
     'no-mixed-spaces-and-tabs': [0],
     // 数组第一个指定是否启用这个规则，第二个指定几个空格
     indent: [1, 2],
-    'new-cap': 'off'
+    'new-cap': 'off',
+    'promise/param-names': 'off',
+    'prefer-promise-reject-errors': 'off'
   }
 }
