@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      height: 100%;
+    }
+    #loading {
+      height: 100px;
+      line-height: 32px;
+      text-align: center;
+    }
+    .list-wrap {
+      height: 100%;
+      width: 100%;
+      background: red;
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="content">
+    <div class="list-wrap"></div>
+    <div id="loading"></div>
+  </div>
+
+
+
+<script>
+  const listWrap = document.querySelector('.list-wrap')
+  const loadingWrap = document.querySelector('#loading')
+  const _downloader = downloader()
+  // 请求数据
+  function downloader () {
+    let i = 0;
+    return () => new Promise((resolve, reject) => {
+      setTimeout(() => {
+        i++;
+        resolve(Array(10).fill(i))
+      }, 1000)
+    })
+  }
+
+  next()
+
+  window.addEventListener('scroll', (e) => {
+    // 当前滚动到的高度
+    const top = document.body.scrollTop || document.documentElement.scrollTop;
+    const pageHeight = document.body.scrollHeight // 全文高度
+    const clientHeight = document.documentElement.clientHeight // 视窗高度
+    if (top >= pageHeight - clientHeight) {
+      next()
+    }
+  })
+
+
+
+
+  // 加载
+  function loading (text) {
+    loadingWrap.textContent = text
+  }
+
+  // 渲染页面
+  function render (arrElm, containers) {
+    arrElm.forEach(elm => {
+      const child = document.createElement('h1')
+      child.textContent = elm
+      containers.appendChild(child)
+    })
+  }
+
+  // 下次加载动作
+  function next () {
+    loading('正在加载...')
+    _downloader().then(res => {
+      render(res, listWrap)
+      loading('加载完成')
+      // 第一次加载, 加载到出现滚动条
+      if (listWrap.clientHeight < document.documentElement.clientHeight) {
+        next()
+      }
+    })
+  }
+
+</script>
+</body>
+</html>

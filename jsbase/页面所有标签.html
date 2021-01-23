@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    function unique (arr) {
+      const res = []
+      const _obj = {}
+      arr.forEach(el => {
+        if (!_obj[el]) {
+          _obj[el] = true
+          res.push(el)
+        }
+      })
+      return res
+    }
+    const arr = [...document.querySelectorAll('*')].map(el => el.tagName)
+    console.log(unique(arr))
+  </script>
+</body>
+</html>

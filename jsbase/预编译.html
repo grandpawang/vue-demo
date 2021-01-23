@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function test (a, c) {
+      console.log(a);
+      var a = 111;
+      console.log(a);
+      console.log(c);
+      function a () {}
+      if (false) {
+        var d = 222
+      }
+      console.log(d);
+      console.log(b);
+      var b = function () {}
+      console.log(b);
+      function c () {}
+      console.log(c);
+    }
+    test(1, 3)
+
+    /**
+     * 找所有变量 声明为undefined
+     * {
+     *  a: undefined
+     *  b: undefined
+     *  c: undefined
+     *  d: undefined
+     * }
+     * 实参赋值给形参
+     * {
+     *  a: undefined 1
+     *  b: undefined
+     *  c: undefined 3
+     *  d: undefined
+     * }
+     * 函数定义赋值
+     * {
+     *  a: undefined 1 function() {}
+     *  b: undefined
+     *  c: undefined 3 function() {}
+     *  d: undefined
+     * }
+     * 预编译完成进入js事件循环
+    */
+  </script>
+</body>
+</html>
