@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<script>
+/* eslint-disable no-var */
+// var a = ???
+// if (a == 1 && a == 2 && a == 3) {
+//   console.log(1)
+// }
+// 隐式装换 如果复杂类型， 隐式的调用对象.valueOf
+
+
+// 1
+var a1 = {
+  i: 0,
+  valueOf: function () {
+    return ++this.i;
+  }
+}
+if (a1 == 1 && a1 == 2 && a1 == 3) {
+  console.log('1 success')
+}
+
+// 1.1
+var a11 = {
+  i: 0,
+  toString: function () {
+    return ++this.i;
+  }
+}
+if (a11 == 1 && a11 == 2 && a11 == 3) {
+  console.log('1.1 success')
+}
+
+// 2
+var i = 0;
+Object.defineProperty(window, 'a2', {
+  get () {
+    return ++i
+  }
+})
+if (a2 == 1 && a2 == 2 && a2 == 3) {
+  console.log('2 success')
+}
+
+// 3
+var a = [1, 2, 3]
+a.join = a.shift
+
+// 原理 [1]隐式调用join
+// console.log([1] == 1)
+// console.log(a.join())
+// console.log(a.join())
+// console.log(a.join())
+
+if (a == 1 && a == 2 && a == 3) {
+  console.log('3 success')
+}
+
+
+console.log(undefined == null)
+console.log(NaN !== NaN)
+console.log(['1'] == '1')
+console.log('1' == true)
+console.log(1 == true)
+
+// obj/string -> obj.toString()   隐式装换
+// null == undefined              只有这个情况相等其他不相等
+// NaN !== NaN / any              NaN不等于所有值
+// 不符合以上规则都转换成数字       obj.toString() -> Number(obj) / obj.valueOf()
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<script>
+    function Foo () {
+  getName = function () {
+    console.log(1)
+  }
+  return this
+}
+
+Foo.getName = function () {
+  console.log(2)
+}
+
+Foo.prototype.getName = function () {
+  console.log(3)
+}
+
+var getName = function () {
+  console.log(4)
+}
+
+function getName() {
+  console.log(5)
+}
+
+Foo.getName() // 2
+getName() // 4
+// 执行一次Foo getName是自由变量向上找getName
+Foo().getName() // 1
+getName() // 1
+// 直接执行Foo.getName
+new Foo.getName()  // 2
+// 创建了Foo对象 获取prototype方法
+new Foo().getName() // 3
+// a = new Foo() -> new a.getName() 创建的时候调用原型链的.getName方法
+new new Foo().getName() // 3
+
+
+// 1 变量提升
+// Foo
+// getName -> 5
+
+// 2 处理赋值
+// Foo.getName -> 2
+// Foo.prototype.getName -> 3
+// getName -> 4
+
+// 3 改变自由变量
+// getName -> 1
+
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    setTimeout(() => {
+      console.log(1);
+    }, 20)
+    console.log(2);
+    setTimeout(() => {
+      console.log(3);
+    }, 10)
+    console.log(4);
+    console.time('aa')
+    for (let i = 0; i < 99999999; i++); // 100ms
+    console.timeEnd('aa')
+    console.log(5);
+    setTimeout(() => {
+      console.log(6);
+    }, 0)
+    console.log(7);
+    setTimeout(() => {
+      console.log(8);
+    }, 15)
+    console.log(9);
+
+    // ---- programs
+    // 2
+    // 4
+    // aa
+    // 5
+    // 7
+    // 9
+    // ---- webapi
+    // 3
+    // 1
+    // ---- 100ms后定义后面的setTimeout
+    // 6
+    // 8
+  </script>
+</body>
+</html>

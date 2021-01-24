@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    async function async1 () {
+      console.log('a1 start');
+      await async2()
+      console.log('a1 end');
+    }
+
+    async function async2 () {
+      console.log('a2');
+    }
+
+    console.log('ss');
+
+    setTimeout(() => {
+      console.log('setTimeout');
+    })
+
+    async1()
+    new Promise((resolve) => {
+      console.log('p1');
+      resolve()
+    }).then(function () {
+      console.log('p2');
+    })
+
+    console.log('se');
+
+    // ss
+    // a1 start
+    // a2
+    // p1
+    // se
+    // a1 end
+    // p2
+    // setTimeout
+
+
+    // 定义promise async 会执行里面的函数 和 执行函数
+    // .then / await 会将执行任务推进异步栈
+    // setTimeout / setInterval Webapi在事件循环的最后执行
+
+</script>
+</body>
+</html>
