@@ -24,6 +24,7 @@ Function.prototype._bind = function (obj, ...args) {
   return _fn
 }
 
+
 Function.prototype._apply = function (obj, arr) {
   if (typeof this !== 'function') {
     throw new TypeError('Error')
