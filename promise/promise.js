@@ -70,16 +70,10 @@ function _promise (fn) {
     }
   }
 
-  // 初始化执行函数
-  try {
-    fn(resolve, reject)
-  } catch (e) {
-    reject(e)
-  }
-
   this.then = function (onFulfilled, onRejected) {
-    onFulfilled = onFulfilled || (res => res)
     const __promise__ = new _promise((resolve, reject) => {
+      onRejected = onRejected || reject
+      onFulfilled = onFulfilled || (res => res)
       // fulfilled
       if (this._status === PROMISE_STATE.FULFILLED) {
         // 在new之后执行以下代码
@@ -96,7 +90,7 @@ function _promise (fn) {
       if (this._status === PROMISE_STATE.REJECTED) {
         queueMicrotask(() => {
           try {
-            const tmp = onRejected ? onRejected(this._reason) : reject(this._reason)
+            const tmp = onRejected(this._reason)
             resolvePromise(__promise__, tmp, resolve, reject)
           } catch (e) {
             reject(e)
@@ -118,7 +112,7 @@ function _promise (fn) {
         this._rejected.push(() => {
           queueMicrotask(() => {
             try {
-              const tmp = onRejected ? onRejected(this._reason) : reject(this._reason)
+              const tmp = onRejected(this._reason)
               resolvePromise(__promise__, tmp, resolve, reject)
             } catch (e) {
               reject(e)
@@ -131,27 +125,49 @@ function _promise (fn) {
   }
 
   this.catch = function (onRejected) {
-    return new _promise((resolve, reject) => {
+    const __promise__ = new _promise((resolve, reject) => {
+      onRejected = onRejected || reject
       if (this._status === PROMISE_STATE.REJECTED) {
-        this._reason = onRejected(this._reason)
+        queueMicrotask(() => {
+          try {
+            const tmp = onRejected(this._reason)
+            resolvePromise(__promise__, tmp, resolve, reject)
+          } catch (e) {
+            reject(e)
+          }
+        })
       }
       if (this._status === PROMISE_STATE.PENDING) {
         this._rejected.push(() => {
-          this._reason = onRejected(this._reason)
+          queueMicrotask(() => {
+            try {
+              const tmp = onRejected(this._reason)
+              resolvePromise(__promise__, tmp, resolve, reject)
+            } catch (e) {
+              reject(e)
+            }
+          })
         })
       }
     })
+    return __promise__
+  }
+  // 初始化执行函数
+  try {
+    fn(resolve, reject)
+  } catch (e) {
+    reject(e)
   }
 }
-
 
 
 new _promise((resolve, reject) => {
   setTimeout(() => {
     console.log('1')
-    resolve(Math.random() * 15)
+    resolve(Math.random() * 100)
   }, 20)
 }).then(res => {
+  console.log(res)
   if (res > 10) {
     throw 'try error'
   } else {
@@ -161,6 +177,8 @@ new _promise((resolve, reject) => {
       }, 100);
     })
   }
+}, err => {
+  console.log('onReject', err)
 }).then(res => {
   console.log(res)
   return new _promise((resolve, reject) => {
@@ -169,5 +187,12 @@ new _promise((resolve, reject) => {
     }))
   })
 }).then().then().then().then(res => {
+  console.log(res)
+}).catch(e => {
+  console.log('catch and new one next', e)
+  return new _promise((resolve, reject) => {
+    resolve(e)
+  })
+}).then(res => {
   console.log(res)
 })
