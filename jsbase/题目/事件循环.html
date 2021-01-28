@@ -7,31 +7,81 @@
 </head>
 <body>
   <script>
-    async function async1 () {
-      console.log('a1 start');
-      await async2()
-      console.log('a1 end');
-    }
+    // async function async1 () {
+    //   console.log('a1 start');
+    //   await async2()
+    //   console.log('a1 end');
+    // }
 
-    async function async2 () {
-      console.log('a2');
-    }
+    // async function async2 () {
+    //   console.log('a2');
+    // }
 
-    console.log('ss');
+    // console.log('ss');
+
+    // setTimeout(() => {
+    //   console.log('setTimeout');
+    // })
+
+    // async1()
+    // new Promise((resolve) => {
+    //   console.log('p1');
+    //   resolve()
+    // }).then(function () {
+    //   console.log('p2');
+    // })
+
+    // console.log('se');
 
     setTimeout(() => {
-      console.log('setTimeout');
+      console.log(1); // 1
     })
 
-    async1()
-    new Promise((resolve) => {
-      console.log('p1');
-      resolve()
-    }).then(function () {
-      console.log('p2');
+    new Promise((resolve, reject) => {
+      resolve(5)
+    }).then((res) => {
+      console.log(res); // 5
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(6)
+        }, 20)
+      })
+    }).then((res) => {
+      console.log(res); // 6
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(8)
+        }, 20)
+      })
+    }).then(res => {
+      console.log(res) // 8
+    })
+    for (let i = 0; i < 1111111111; i++);
+    /// ////////////////////////
+    new Promise((resolve, reject) => {
+      resolve(4)
+    }).then((res) => {
+      console.log(res); // 4
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(7)
+        }, 50)
+      })
+    }).then((res) => {
+      console.log(res); // 7
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(9)
+        }, 100)
+      })
+    }).then(res => {
+      console.log(res) // 9
     })
 
-    console.log('se');
+
+    // 3 5 1 2 4
+
+    //
 
     // ss
     // a1 start
