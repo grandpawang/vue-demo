@@ -5,6 +5,7 @@ const map = new window.AMap.Map('container', {
   resizeEnable: true
 });
 
+
 const num = 500
 
 // 以 icon URL 的形式创建一个途经点

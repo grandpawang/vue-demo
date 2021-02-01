@@ -8,7 +8,8 @@ onmessage = (evt) => {
     ctx.fillStyle = color[i++ % 6]
     ctx.fillRect(0, 0, 100, 100)
     const now = Date.now()
-    console.log(now - lastTime)
+    ctx.fillStyle = '#000000'
+    ctx.fillText(now - lastTime, 25, 25);
     lastTime = now
   }, 500)
 }

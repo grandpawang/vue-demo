@@ -19,21 +19,25 @@
 </head>
 <body>
   <div id="container" class="map" tabindex="0">
-    <canvas id="offscreenCanvas" width="100" height="100"></canvas>
+    <!-- <canvas id="offscreenCanvas" width="100" height="100"></canvas> -->
   </div>
   <script type="text/javascript" src='https://a.amap.com/jsapi_demos/static/citys.js'></script>
-<script type="text/javascript"
-        src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值"></script>
-<script type="text/javascript" src="./point.js"></script>
+  <script src="https://webapi.amap.com/maps?v=1.4.15&key=5e2eb5b5d1dc07bbedbc74b969d533b4&plugin=AMap.ToolBar,AMap.Geolocation,AMap.MarkerClusterer,AMap.MouseTool,AMap.PolyEditor"></script>
+  <script type="text/javascript" src="./customLayout.js"></script>
+  <!-- <script type="text/javascript" src="./mapNoWorker.js"></script> -->
 
 <script type="text/javascript">
     // canvas worker
-    const offscreen = document.getElementById('offscreenCanvas').transferControlToOffscreen();
-    const worker = new Worker('./worker.js');
-    worker.postMessage({ canvas: offscreen }, [offscreen]);
+    // const offscreen = document.getElementById('offscreenCanvas').transferControlToOffscreen();
+    // const worker = new Worker('./worker.js');
+    // worker.postMessage({ canvas: offscreen }, [offscreen]);
 
-
-
+    let lastTime = Date.now()
+    setInterval(() => {
+      const now = Date.now()
+      console.log(now - lastTime)
+      lastTime = now
+    }, 500)
 </script>
 </body>
 </html>
