@@ -8,7 +8,6 @@ class Store {
       install(window.Vue)
     }
 
-    const { state: _state, getters: _getters, mutations: _mutations, actions: _actions } = options;
 
     const computed = {}
     this.getters = {}

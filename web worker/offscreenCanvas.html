@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>web worker offscreen canvas</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+    <style>
+        html, body, #container {
+            height: 100%;
+            width: 100%;
+        }
+        #offscreenCanvas{
+          position: absolute;
+          z-index: 1001;
+        }
+    </style>
+</head>
+<body>
+  <div id="container" class="map" tabindex="0">
+    <canvas id="offscreenCanvas" width="100" height="100"></canvas>
+  </div>
+  <script type="text/javascript" src='https://a.amap.com/jsapi_demos/static/citys.js'></script>
+<script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值"></script>
+<script type="text/javascript" src="./point.js"></script>
+
+<script type="text/javascript">
+    // canvas worker
+    const offscreen = document.getElementById('offscreenCanvas').transferControlToOffscreen();
+    const worker = new Worker('./worker.js');
+    worker.postMessage({ canvas: offscreen }, [offscreen]);
+
+
+
+</script>
+</body>
+</html>
