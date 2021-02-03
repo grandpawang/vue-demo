@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var name = 'global'
+function  a() {
+    console.log(name)
+}
+
+function b(){
+    var name = 'b';
+    a();
+}
+
+b();
+
+function a(){
+    console.log('1');
+}
+
+a();
+function a(){
+    console.log('2');
+}
+a();
+
+// ************
+var a = function(){
+    console.log('1');
+}
+
+a();
+var a = function(){
+    console.log('2');
+}
+a();
+
+// ********
+var name = 'global'
+function a(){
+    console.log(name);
+}
+a();
+
+function b(){
+    var name = 'b';
+    function a(){
+        console.log(name);
+    }
+    a();
+}
+
+b()
+
+// *******
+var name = 'global'
+function a(){
+    console.log(this.name);
+}
+a();
+
+function b(){
+    var name = 'b';
+    function a(){
+        console.log(this.name);
+    }
+    a();
+}
+
+b()
+
+
+// ***
+function a(){
+    console.log('a')
+    b();
+    console.log('a end')
+}
+
+function b(){
+    console.log('b');
+    c();
+    console.log('b end')
+}
+
+function c(){
+    console.log('c');
+}
+
+a();
+  </script>
+</body>
+</html>
