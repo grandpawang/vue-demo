@@ -8,6 +8,17 @@
 <body>
   <script>
 /* eslint-disable no-proto */
+class Fn2 {
+  static aaaa () {
+    console.log('aaa1')
+  }
+}
+
+Fn2.aaaa = function () {
+  console.log('aaa2')
+}
+
+console.log(Fn2.aaaa())
 
 function Fn () {
   this.x = 100;
