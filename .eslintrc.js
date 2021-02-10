@@ -35,6 +35,9 @@ module.exports = {
     indent: [1, 2],
     'new-cap': 'off',
     'promise/param-names': 'off',
-    'prefer-promise-reject-errors': 'off'
+    'prefer-promise-reject-errors': 'off',
+    'no-new': 'off',
+    'no-cond-assign': 'off',
+    'no-unused-expressions': 'off'
   }
 }
