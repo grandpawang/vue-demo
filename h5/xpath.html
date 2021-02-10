@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="a"></div>
+<script>
+function _x (STR_XPATH) {
+  const xresult = document.evaluate(STR_XPATH, document, null, XPathResult.ANY_TYPE, null);
+  const xnodes = [];
+  let xres;
+  // eslint-disable-next-line no-cond-assign
+  while (xres = xresult.iterateNext()) {
+    xnodes.push(xres);
+  }
+  return xnodes;
+}
+console.log(_x('//*'))
+</script>
+</body>
+</html>

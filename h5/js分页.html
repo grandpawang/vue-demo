@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <a href="#pageA">pageA</a>
+  <a href="#pageB">pageB</a>
+  <div class="a">
+    hello world
+  </div>
+  <div class="b">
+    你好
+  </div>
+<script>
+const pageA = document.querySelector('.a')
+const pageB = document.querySelector('.b')
+pageA.setAttribute('style', 'display: none')
+pageB.setAttribute('style', 'display: none')
+
+window.addEventListener('load', () => {
+  const hash = window.location.hash.slice(1)
+  if (!hash) {
+    window.location.hash = '/'
+  }
+})
+
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.slice(1)
+  switch (hash) {
+  case 'pageA':
+    pageA.setAttribute('style', 'display: block')
+    pageB.setAttribute('style', 'display: none')
+    break
+  case 'pageB':
+    pageA.setAttribute('style', 'display: none')
+    pageB.setAttribute('style', 'display: block')
+    break
+  default:
+    pageA.setAttribute('style', 'display: none')
+    pageB.setAttribute('style', 'display: block')
+    break
+  }
+})
+</script>
+</body>
+</html>

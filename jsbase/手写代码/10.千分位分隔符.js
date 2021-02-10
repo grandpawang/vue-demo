@@ -30,6 +30,29 @@ function foo (num) {
   return tmp
 }
 
+function foo2 (num) {
+  const result = []
+  if (num < 0) {
+    num = -num
+    result.push('-')
+  }
+  let [number, minNum] = String(num).split('.')
+  const s = number.length % 3
+  if (s !== 0) {
+    number = number.padStart(number.length + 3 - s, '0')
+  }
+  const numbers = []
+  number.replace(/\S{3}/gm, (s, s1, s2) => {
+    numbers.push(s)
+  })
+  result.push(numbers.join(',').slice(3 - s))
+  if (!minNum) {
+    return result.join('')
+  } else {
+    return result.join('') + '.' + minNum
+  }
+}
 
-const res = foo(-1234567.159456)
-console.log(res)
+
+console.log(foo(-1234567.159456))
+console.log(foo2(-1234567.12345678))
